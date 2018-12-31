@@ -53,6 +53,14 @@
                 })
             }
 
+            handleClearAll = () => {
+                this.setState(() => {
+                    return {
+                        friends: []
+                    }
+                })
+            }
+
             updateInput = (e) => {
                 const value = e.target.value
 
@@ -71,6 +79,7 @@
                             onChange={this.updateInput}
                         />
                         <button onClick={this.handleAddFriend}>Submit</button>
+                        <button onClick={this.handleClearAll}>Clear All</button>
                         <FriendsList 
                             list={this.state.friends}
                             onRemoveFriend={this.handleRemoveFriend}
