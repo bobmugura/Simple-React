@@ -31,8 +31,18 @@
                 super(props)
 
                 this.state = {
-                    friends: ['Jordan', 'Curry', 'Westbrook']
+                    friends: ['Jordan', 'Curry', 'Westbrook'],
+                    input: '',
                 }
+            }
+
+            handleAddFriend = () => {
+                this.setState((currentState) => {
+                    return {
+                        friends: currentState.friends.concat([currentState.input]),
+                        input: '',
+                    }
+                })
             }
 
             handleRemoveFriend = (name) => {
@@ -43,9 +53,24 @@
                 })
             }
 
+            updateInput = (e) => {
+                const value = e.target.value
+
+                this.setState(() => ({
+                    input: value
+                }))
+            }
+
             render() {
                 return (
                     <div>
+                        <input 
+                            type='text'
+                            placeholder='new friend'
+                            value={this.state.input}
+                            onChange={this.updateInput}
+                        />
+                        <button onClick={this.handleAddFriend}>Submit</button>
                         <FriendsList 
                             list={this.state.friends}
                             onRemoveFriend={this.handleRemoveFriend}
