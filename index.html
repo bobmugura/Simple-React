@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>React Playground</title>
+    <title>Friends Manager</title>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
@@ -13,13 +13,27 @@
 
     <script type='text/babel'>
 
-        function FriendsList(props) {
+        function ActiveFriendsList(props) {
             return (
                 <ul>
                     {props.list.map((name) => (
                         <li key={name}>
                             <span>{name}</span>
                             <button onClick={() => props.onRemoveFriend(name)}>Remove</button>
+                            <button onClick={() => props.onDeactivateFriend(name)}>Deactivate</button>
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+
+        function InactiveFriendsList(props) {
+            return (
+                <ul>
+                    {props.list.map((name) => (
+                        <li key={name}>
+                            <span>{name}</span>
+                            <button onClick={() => props.onActivateFriend(name)}>Activate</button>
                         </li>
                     ))}
                 </ul>
@@ -31,16 +45,35 @@
                 super(props)
 
                 this.state = {
-                    friends: ['Jordan', 'Curry', 'Westbrook'],
+                    activeFriends: ['Jordan', 'Curry', 'Westbrook'],
                     input: '',
+                    inactiveFriends: [],
                 }
             }
 
             handleAddFriend = () => {
                 this.setState((currentState) => {
                     return {
-                        friends: currentState.friends.concat([currentState.input]),
+                        activeFriends: currentState.activeFriends.concat([currentState.input]),
                         input: '',
+                    }
+                })
+            }
+
+            handleActivateFriend = (name) => {
+                this.setState((currentState) => {
+                    return {
+                        inactiveFriends: currentState.inactiveFriends.filter((friend) => friend != name),
+                        activeFriends: currentState.activeFriends.concat(name),
+                    }
+                })
+            }
+
+            handleDeactivateFriend = (name) => {
+                this.setState((currentState) => {
+                    return {
+                        activeFriends: currentState.activeFriends.filter((friend) => friend !== name),
+                        inactiveFriends: currentState.inactiveFriends.concat(name),
                     }
                 })
             }
@@ -48,7 +81,7 @@
             handleRemoveFriend = (name) => {
                 this.setState((currentState) => {
                     return {
-                        friends: currentState.friends.filter((friend) => friend !== name)
+                        activeFriends: currentState.activeFriends.filter((friend) => friend !== name)
                     }
                 })
             }
@@ -56,7 +89,8 @@
             handleClearAll = () => {
                 this.setState(() => {
                     return {
-                        friends: []
+                        activeFriends: [],
+                        inactiveFriends: [],
                     }
                 })
             }
@@ -80,9 +114,17 @@
                         />
                         <button onClick={this.handleAddFriend}>Submit</button>
                         <button onClick={this.handleClearAll}>Clear All</button>
-                        <FriendsList 
-                            list={this.state.friends}
+                        <br/>
+                        <div>Active Friends</div>
+                        <ActiveFriendsList 
+                            list={this.state.activeFriends}
                             onRemoveFriend={this.handleRemoveFriend}
+                            onDeactivateFriend={this.handleDeactivateFriend}
+                        />
+                        <div>Inactive Friends</div>
+                        <InactiveFriendsList
+                            list={this.state.inactiveFriends}
+                            onActivateFriend={this.handleActivateFriend}
                         />
                     </div>
                 )
