@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 
 class IncrementButton extends Component {
+
   handleClick = () => {
-    this.props.doIncrementCount(this.props.incrementVal)
+    // console.log(this.props)
+    this.props.handleClick(this.props.incrementVal)
   }
 
   render() {

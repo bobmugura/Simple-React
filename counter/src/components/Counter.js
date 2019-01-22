@@ -3,38 +3,38 @@ import IncrementButton from './IncrementButton'
 
 class Counter extends Component {
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
 
     this.state = {
-      count: 0
+      counter: 0
     }
   }
 
   componentDidMount() {
-    console.log(`componentDidMount count=${this.state.count}`)
+    console.log(`componentDidMount counter=${this.state.counter}`)
   }
 
   componentDidUpdate() {
-    console.log(`componentDidUpdate count=${this.state.count}`)
+    console.log(`componentDidUpdate counter=${this.state.counter}`)
   }
 
   handleIncrement = (incrementVal) => {
-    this.setState((prevState) => ({
-      count: prevState.count + incrementVal
-    }))
+    this.setState({
+      counter: this.state.counter + incrementVal
+    })
   }
 
   render() {
     return (
       <div>
-        <h1>Counter</h1>
-        <IncrementButton incrementVal={1} doIncrementCount={this.handleIncrement} />
-        <IncrementButton incrementVal={10} doIncrementCount={this.handleIncrement} />
-        <IncrementButton incrementVal={100} doIncrementCount={this.handleIncrement} />
-        <IncrementButton incrementVal={1000} doIncrementCount={this.handleIncrement} />
+        <h1>{this.props.text}</h1>
+        <IncrementButton handleClick={this.handleIncrement} incrementVal={1}></IncrementButton>
+        <IncrementButton handleClick={this.handleIncrement} incrementVal={10}></IncrementButton>
+        <IncrementButton handleClick={this.handleIncrement} incrementVal={100}></IncrementButton>
+        <IncrementButton handleClick={this.handleIncrement} incrementVal={1000}></IncrementButton>
         <br />
-        <span>{this.state.count}</span>
+        <span>{this.state.counter}</span>
       </div>
     )
   }

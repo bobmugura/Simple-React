@@ -3,10 +3,13 @@ import './App.css';
 import Counter from './components/Counter'
 
 class App extends Component {
+
+  text = 'Counter'
+
   render() {
     return (
       <div className="App">
-        <Counter />
+        <Counter text={this.text} />
       </div>
     );
   }
